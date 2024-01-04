@@ -5,7 +5,7 @@ from .models import Post, Comment, Reply
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password']
+        fields = ['id', 'first_name','last_name','username', 'email', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -17,7 +17,7 @@ class ReplySerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = Reply
-        fields = ['id', 'text', 'username']
+        fields = ['id', 'text', 'username', 'created_at']
 
 class CommentSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
@@ -25,7 +25,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'text', 'username', 'replies']
+        fields = ['id', 'text', 'username', 'replies', 'created_at']
 
 class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
@@ -33,4 +33,4 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'text', 'image', 'likes', 'username', 'comments']
+        fields = ['id', 'title', 'text', 'image', 'likes', 'username', 'comments', 'created_at']
