@@ -63,8 +63,8 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000/',
-    'https://redditclonebackend.onrender.com/'
+    'http://localhost:3000',
+    'https://redditclonebackend.onrender.com',
 ]
 
 ROOT_URLCONF = 'adsgency.urls'
