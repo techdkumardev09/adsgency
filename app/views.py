@@ -1,9 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer  
 from django.shortcuts import get_object_or_404 
-from .serializers import UserSerializer, PostSerializer, CommentSerializer, ReplySerializer
+from .serializers import CustomTokenObtainPairSerializer, UserSerializer, PostSerializer, CommentSerializer, ReplySerializer
 from .models import Post, Comment, Reply
 
 class RegisterUserView(generics.CreateAPIView):
@@ -12,7 +11,7 @@ class RegisterUserView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
 class ObtainTokenPairView(TokenObtainPairView):
-    serializer_class = TokenObtainPairSerializer  
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class PostListCreateView(generics.ListCreateAPIView):

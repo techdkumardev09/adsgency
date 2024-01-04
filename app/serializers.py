@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from .models import Post, Comment, Reply
 
@@ -12,7 +13,22 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['first_name'] = user.first_name
+        token['last_name'] = user.last_name
+        return token
 
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['first_name'] = self.user.first_name
+        data['last_name'] = self.user.last_name
+        data['username'] = self.user.username
+        data['email'] = self.user.email
+        return data
+    
 class ReplySerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
     class Meta:
